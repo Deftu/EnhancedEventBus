@@ -1,6 +1,5 @@
 import dev.deamsy.eventbus.impl.asm.ASMEventBus
 import org.junit.jupiter.api.*
-import kotlin.random.Random
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -17,7 +16,7 @@ class DesamsyEventBusEventBusTest {
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(10_000_000) {
+        repeat(100_000) {
             eventBus.post(MessageReceivedEvent("Hello world"))
         }
     }

@@ -2,8 +2,6 @@ import com.google.common.eventbus.EventBus
 import com.google.common.eventbus.Subscribe
 import org.junit.jupiter.api.*
 
-import kotlin.random.Random
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class GuavaEventBusTest {
@@ -23,7 +21,7 @@ class GuavaEventBusTest {
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(10_000_000) {
+        repeat(100_000) {
             eventBus.post(MessageReceivedEvent("Hello world"))
         }
     }

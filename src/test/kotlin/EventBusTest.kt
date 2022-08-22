@@ -1,23 +1,20 @@
-import me.kbrewster.eventbus.Subscribe
-import me.kbrewster.eventbus.eventbus
-import me.kbrewster.eventbus.exception.ExceptionHandler
-import me.kbrewster.eventbus.invokers.LMFInvoker
+import xyz.unifycraft.ueventbus.Subscribe
+import xyz.unifycraft.ueventbus.invokers.LMFInvoker
 import org.junit.jupiter.api.*
-import sun.plugin2.message.Message
+import xyz.unifycraft.ueventbus.eventBus
 
-
-import kotlin.random.Random
-
-class MessageReceivedEvent(val message: String)
+class MessageReceivedEvent(
+    val message: String
+)
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class EventBusTest {
 
-    private val eventBus = eventbus {
-        invoker { LMFInvoker() }
+    private val eventBus = eventBus {
+        invoker(LMFInvoker())
         exceptionHandler { exception -> println("Error occurred in method: ${exception.message}")  }
-        threadSaftey { false }
+        threadSafety(false)
     }
 
     @Test
@@ -28,13 +25,13 @@ class EventBusTest {
 
     @Subscribe
     fun `subscribed method`(event: MessageReceivedEvent) {
-        // do something
+        println("message: ${event.message}")
     }
 
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(10_000_000) {
+        repeat(100_000) {
             eventBus.post { MessageReceivedEvent("Hello world") }
         }
     }
