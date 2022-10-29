@@ -15,14 +15,14 @@ class GuavaEventBusTest {
 
     @Subscribe
     fun `subscribed method`(event: MessageReceivedEvent) {
-        // do something
+        println("message: ${event.message}")
     }
 
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(100_000) {
-            eventBus.post(MessageReceivedEvent("Hello world"))
+        repeat(50) {
+            eventBus.post(MessageReceivedEvent("Hello, World!"))
         }
     }
 
@@ -32,5 +32,4 @@ class GuavaEventBusTest {
     fun `removing class`() {
         eventBus.unregister(this)
     }
-
 }

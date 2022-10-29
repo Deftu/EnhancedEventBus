@@ -1,20 +1,19 @@
-import xyz.unifycraft.ueventbus.Subscribe
-import xyz.unifycraft.ueventbus.invokers.LMFInvoker
+import xyz.enhancedpixel.enhancedeventbus.SubscribeEvent
+import xyz.enhancedpixel.enhancedeventbus.invokers.LMFInvoker
 import org.junit.jupiter.api.*
-import xyz.unifycraft.ueventbus.eventBus
-
-class MessageReceivedEvent(
-    val message: String
-)
+import xyz.enhancedpixel.enhancedeventbus.EventPriority
+import xyz.enhancedpixel.enhancedeventbus.bus
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
 class EventBusTest {
-
-    private val eventBus = eventBus {
-        invoker(LMFInvoker())
-        exceptionHandler { exception -> println("Error occurred in method: ${exception.message}")  }
-        threadSafety(false)
+    private val eventBus = bus {
+        setInvoker(LMFInvoker())
+        setExceptionHandler { exception ->
+            println("Error occurred in method: ${exception.message}")
+            exception.printStackTrace()
+        }
+        setThreadSafety(false)
     }
 
     @Test
@@ -23,16 +22,26 @@ class EventBusTest {
         eventBus.register(this)
     }
 
-    @Subscribe
+    @SubscribeEvent(priority = EventPriority.HIGH)
     fun `subscribed method`(event: MessageReceivedEvent) {
         println("message: ${event.message}")
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    fun `subscribed method 2`(event: MessageReceivedEvent) {
+        println("message 2: ${event.message}")
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun `subscribed method 3`(event: MessageReceivedEvent) {
+        println("message 3: ${event.message}")
     }
 
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(100_000) {
-            eventBus.post { MessageReceivedEvent("Hello world") }
+        repeat(50) {
+            eventBus.post { MessageReceivedEvent("Hello, World!") }
         }
     }
 
@@ -41,5 +50,4 @@ class EventBusTest {
     fun `removing class`() {
         eventBus.unregister(this)
     }
-
 }

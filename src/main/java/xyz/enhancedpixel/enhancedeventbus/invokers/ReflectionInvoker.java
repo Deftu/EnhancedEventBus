@@ -1,15 +1,15 @@
-package xyz.unifycraft.ueventbus.invokers;
+package xyz.enhancedpixel.enhancedeventbus.invokers;
 
 import java.lang.reflect.Method;
 
 public class ReflectionInvoker implements Invoker {
     public SubscriberMethod setup(
-            Object object,
+            Object instance,
             Class<?> clazz,
             Class<?> parameterClazz,
             Method method
     ) {
-        method.setAccessible(true);
-        return (obj) -> method.invoke(object, obj);
+        CachedJavaVersion.getInstance().trySetAccessible(method);
+        return (listener) -> method.invoke(instance, listener);
     }
 }

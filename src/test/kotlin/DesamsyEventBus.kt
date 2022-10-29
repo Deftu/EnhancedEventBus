@@ -9,15 +9,16 @@ class DesamsyEventBusEventBusTest {
     @Test
     @Order(0)
     fun `subscribing class`() {
-        eventBus.registerLambda(MessageReceivedEvent::class.java) { _ -> }
+        eventBus.registerLambda(MessageReceivedEvent::class.java) { event ->
+            println("message: ${event.message}")
+        }
     }
-
 
     @Test
     @Order(1)
     fun `posting event`() {
-        repeat(100_000) {
-            eventBus.post(MessageReceivedEvent("Hello world"))
+        repeat(50) {
+            eventBus.post(MessageReceivedEvent("Hello, World!"))
         }
     }
 
@@ -27,5 +28,4 @@ class DesamsyEventBusEventBusTest {
     fun `removing class`() {
         eventBus.unregister(this)
     }
-
 }

@@ -1,10 +1,10 @@
-package xyz.unifycraft.ueventbus.invokers;
+package xyz.enhancedpixel.enhancedeventbus.invokers;
 
 import java.lang.reflect.Method;
 
 public interface Invoker {
     SubscriberMethod setup(
-            Object object,
+            Object instance,
             Class<?> clazz,
             Class<?> parameterClazz,
             Method method
