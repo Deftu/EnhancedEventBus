@@ -1,6 +1,6 @@
 <div align="center">
 
-# UEventBus
+# [`EnhancedEventBus`]
 JVM event bus focused on thread-safety and performance.
 
 <sup>Based on [keventbus][keventbus] (Kevin Event Bus) by [KevinPriv][kevin]</sup>
@@ -15,9 +15,11 @@ JVM event bus focused on thread-safety and performance.
 ```java
 public class Example {
     // Create our event bus instance.
-    private EventBus eventBus = new EventBus(new LMFInvoker(), e -> {
-        System.out.println("Error occurred in method: " + e.getMessage());
-    });
+    private EventBus eventBus = new EventBusBuilder()
+            .setInvoker(new LMFInvoker())
+            .setExceptionHandler(e -> {
+                System.out.println("Error occurred in method: " + e.getMessage());
+            }).build();
 
     /**
      * This is your application's entrypoint, where everything takes place.
@@ -28,10 +30,10 @@ public class Example {
     }
 
     /**
-     * Methods you'd like to register should be annotated with @Subscribe
+     * Methods you'd like to register should be annotated with @SubscribeEvent
      * The first, and only, parameter is a MessageReceivedEvent. Thus, events posted with that class will invoke this method.
      */
-    @Subscribe
+    @SubscribeEvent
     public void onMessageReceived(MessageReceivedEvent event) {
         // Do something with the data from the event.
         System.out.println("Received a message: " + event.getMessage());
@@ -46,10 +48,10 @@ public class Example {
 
 ```kt
 // Create our event bus instance.
-private val eventBus = eventBus {
-    invoker(LMFInvoker())
-    exceptionHandler { exception ->
-        println("Error occurred in method: ${exception.message}")
+private val eventBus = bus {
+    invoker = LMFInvoker()
+    setExceptionHandler { e ->
+        println("Error occurred in method: ${e.message}")
     }
 }
 
@@ -82,9 +84,11 @@ fun onMessageReceived(event: MessageReceivedEvent) {
 ```java
 public class Example {
     // Create our event bus instance.
-    private EventBus eventBus = new EventBus(new LMFInvoker(), e -> {
-        System.out.println("Error occurred in method: " + e.getMessage());
-    });
+    private EventBus eventBus = new EventBusBuilder()
+            .setInvoker(new LMFInvoker())
+            .setExceptionHandler(e -> {
+                System.out.println("Error occurred in method: " + e.getMessage());
+            }).build();
 
     /**
      * This is your application's entrypoint, where everything takes place.
@@ -115,10 +119,10 @@ public class MessageReceivedEvent {
 
 ```kt
 // Create our event bus instance.
-private val eventBus = eventBus {
-    invoker(LMFInvoker())
-    exceptionHandler { exception ->
-        println("Error occurred in method: ${exception.message}")
+private val eventBus = bus {
+    invoker = LMFInvoker()
+    setExceptionHandler { e ->
+        println("Error occurred in method: ${e.message}")
     }
 }
 
@@ -145,9 +149,11 @@ data class MessageReceivedEvent(
 ```java
 public class Example {
     // Create our event bus instance.
-    private EventBus eventBus = new EventBus(new LMFInvoker(), e -> {
-        System.out.println("Error occurred in method: " + e.getMessage());
-    });
+    private EventBus eventBus = new EventBusBuilder()
+            .setInvoker(new LMFInvoker())
+            .setExceptionHandler(e -> {
+                System.out.println("Error occurred in method: " + e.getMessage());
+            }).build();
 
     /**
      * This is your application's entrypoint, where everything takes place.
@@ -177,9 +183,9 @@ public class Example {
 ```kt
 // Create our event bus instance.
 private val eventBus = eventBus {
-    invoker(LMFInvoker())
-    exceptionHandler { exception ->
-        println("Error occurred in method: ${exception.message}")
+    invoker = LMFInvoker()
+    setExceptionHandler { e ->
+        println("Error occurred in method: ${e.message}")
     }
 }
 
