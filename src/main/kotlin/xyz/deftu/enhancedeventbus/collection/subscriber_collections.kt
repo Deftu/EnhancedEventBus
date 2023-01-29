@@ -1,6 +1,6 @@
-package xyz.enhancedpixel.enhancedeventbus.collection
+package xyz.deftu.enhancedeventbus.collection
 
-import xyz.enhancedpixel.enhancedeventbus.EventBus
+import xyz.deftu.enhancedeventbus.EventBus
 import java.util.Comparator
 import java.util.concurrent.CopyOnWriteArrayList
 

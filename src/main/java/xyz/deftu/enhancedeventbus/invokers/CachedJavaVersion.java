@@ -1,4 +1,4 @@
-package xyz.enhancedpixel.enhancedeventbus.invokers;
+package xyz.deftu.enhancedeventbus.invokers;
 
 import sun.misc.Unsafe;
 

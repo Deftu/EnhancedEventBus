@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version("1.6.21")
+    kotlin("jvm") version("1.7.21")
     java
     `maven-publish`
 }
@@ -39,24 +39,24 @@ publishing {
     }
 
     repositories {
-        if (project.hasProperty("enhancedpixel.publishing.username") && project.hasProperty("enhancedpixel.publishing.password")) {
+        if (project.hasProperty("deftu.publishing.username") && project.hasProperty("deftu.publishing.password")) {
             fun MavenArtifactRepository.applyCredentials() {
                 authentication.create<BasicAuthentication>("basic")
                 credentials {
-                    username = property("enhancedpixel.publishing.username")?.toString()
-                    password = property("enhancedpixel.publishing.password")?.toString()
+                    username = property("deftu.publishing.username")?.toString()
+                    password = property("deftu.publishing.password")?.toString()
                 }
             }
 
             maven {
-                name = "EnhancedPixelReleases"
-                url = uri("https://maven.enhancedpixel.xyz/releases")
+                name = "DeftuReleases"
+                url = uri("https://maven.deftu.xyz/releases")
                 applyCredentials()
             }
 
             maven {
-                name = "EnhancedPixelSnapshots"
-                url = uri("https://maven.enhancedpixel.xyz/snapshots")
+                name = "DeftuSnapshots"
+                url = uri("https://maven.deftu.xyz/snapshots")
                 applyCredentials()
             }
         }

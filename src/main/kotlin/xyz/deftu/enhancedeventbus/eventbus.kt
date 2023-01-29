@@ -1,8 +1,8 @@
-package xyz.enhancedpixel.enhancedeventbus
+package xyz.deftu.enhancedeventbus
 
-import xyz.enhancedpixel.enhancedeventbus.collection.ConcurrentSubscriberArrayList
-import xyz.enhancedpixel.enhancedeventbus.collection.SubscriberArrayList
-import xyz.enhancedpixel.enhancedeventbus.invokers.Invoker
+import xyz.deftu.enhancedeventbus.collection.ConcurrentSubscriberArrayList
+import xyz.deftu.enhancedeventbus.collection.SubscriberArrayList
+import xyz.deftu.enhancedeventbus.invokers.Invoker
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.*

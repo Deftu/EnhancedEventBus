@@ -1,7 +1,7 @@
-package xyz.enhancedpixel.enhancedeventbus
+package xyz.deftu.enhancedeventbus
 
-import xyz.enhancedpixel.enhancedeventbus.invokers.Invoker
-import xyz.enhancedpixel.enhancedeventbus.invokers.ReflectionInvoker
+import xyz.deftu.enhancedeventbus.invokers.Invoker
+import xyz.deftu.enhancedeventbus.invokers.ReflectionInvoker
 import java.util.function.Consumer
 
 fun bus(lambda: EventBusBuilder.() -> Unit) = EventBusBuilder().apply(lambda).build()
@@ -10,7 +10,8 @@ class EventBusBuilder {
     /**
      * The default invoker is the [ReflectionInvoker].
      */
-    var invoker: Invoker = ReflectionInvoker()
+    var invoker: Invoker =
+        ReflectionInvoker()
 
     /**
      * By default, the handler will re-throw the exception.

@@ -1,8 +1,8 @@
-import xyz.enhancedpixel.enhancedeventbus.SubscribeEvent
-import xyz.enhancedpixel.enhancedeventbus.invokers.LMFInvoker
+import xyz.deftu.enhancedeventbus.SubscribeEvent
+import xyz.deftu.enhancedeventbus.invokers.LMFInvoker
 import org.junit.jupiter.api.*
-import xyz.enhancedpixel.enhancedeventbus.EventPriority
-import xyz.enhancedpixel.enhancedeventbus.bus
+import xyz.deftu.enhancedeventbus.EventPriority
+import xyz.deftu.enhancedeventbus.bus
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
