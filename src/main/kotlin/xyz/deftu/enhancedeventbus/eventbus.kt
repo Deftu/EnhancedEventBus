@@ -24,9 +24,9 @@ annotation class SubscribeEvent(
 )
 
 class EventBus internal constructor(
-    private val invoker: Invoker,
+    val invoker: Invoker,
     val exceptionHandler: Consumer<Exception>,
-    private val threadSafety: Boolean
+    val threadSafety: Boolean
 ) {
     class EventSubscriber(
         val listener: Any,
@@ -50,7 +50,7 @@ class EventBus internal constructor(
         }
     }
 
-    private val subscribers: AbstractMap<Class<*>, MutableList<EventSubscriber>> =
+    val subscribers: AbstractMap<Class<*>, MutableList<EventSubscriber>> =
         if (threadSafety) ConcurrentHashMap() else HashMap()
 
     private fun Method.checkParameters() {
@@ -99,6 +99,19 @@ class EventBus internal constructor(
         }
     }
 
+    /**
+     * Allows you to register a lambda as an event listener using generics.
+     */
+    inline fun <reified T> on(
+        priority: EventPriority = EventPriority.NORMAL,
+        crossinline listener: (T) -> Unit
+    ) {
+        val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
+        val subscriber = EventSubscriber(this, priority, method)
+        subscribers.computeIfAbsent(T::class.java) {
+            if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
+        }.add(subscriber)
+    }
     /**
      * Posts the event instance given to all the subscribers
      * that are subscribed to the event's class.

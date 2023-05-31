@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version("1.7.21")
+    kotlin("jvm") version("1.6.21")
     java
     `maven-publish`
 }
@@ -16,15 +16,16 @@ dependencies {
     implementation(kotlin("stdlib"))
     
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
     testImplementation("com.github.deamsy:eventbus:1.1")
     testImplementation("com.google.guava:guava:31.1-jre")
-    testImplementation("org.testng:testng:7.6.1")
 }
 
 java {
     withSourcesJar()
     withJavadocJar()
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 publishing {

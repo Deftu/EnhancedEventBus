@@ -20,6 +20,9 @@ class EventBusTest {
     @Order(0)
     fun `subscribing class`() {
         eventBus.register(this)
+        eventBus.on<MessageReceivedEvent> {
+            println("message lambda: ${it.message}")
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
