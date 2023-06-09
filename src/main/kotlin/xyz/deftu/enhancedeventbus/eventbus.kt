@@ -112,7 +112,7 @@ class EventBus internal constructor(
         listener: Consumer<T>,
         priority: EventPriority = EventPriority.NORMAL
     ): Runnable {
-        val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
+        val method = Invoker.SubscriberMethod { arg -> listener.accept(arg as T) }
         val subscriber = EventSubscriber(this, priority, method)
         subscribers.computeIfAbsent(clazz) {
             if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
