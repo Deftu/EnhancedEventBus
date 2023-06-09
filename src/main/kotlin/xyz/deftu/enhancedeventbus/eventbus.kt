@@ -28,22 +28,6 @@ class EventBus internal constructor(
     val exceptionHandler: Consumer<Exception>,
     val threadSafety: Boolean
 ) {
-    class EventSubscriber(
-        val listener: Any,
-        val priority: EventPriority,
-        private val invoker: Invoker.SubscriberMethod?
-    ) {
-        @Throws(Exception::class)
-        operator fun invoke(arg: Any?) =
-            invoker!!.invoke(arg)
-
-        override fun equals(other: Any?): Boolean =
-            other.hashCode() == this.hashCode()
-
-        override fun hashCode() =
-            listener.hashCode()
-    }
-
     class PriorityComparator : Comparator<EventSubscriber> {
         override fun compare(o1: EventSubscriber, o2: EventSubscriber): Int {
             return o2.priority.ordinal - o1.priority.ordinal
@@ -105,13 +89,40 @@ class EventBus internal constructor(
     inline fun <reified T> on(
         priority: EventPriority = EventPriority.NORMAL,
         crossinline listener: (T) -> Unit
-    ) {
+    ): () -> Unit {
         val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
         val subscriber = EventSubscriber(this, priority, method)
         subscribers.computeIfAbsent(T::class.java) {
             if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
         }.add(subscriber)
+
+        return {
+            subscribers[T::class.java]?.remove(subscriber)
+        }
     }
+
+    /**
+     * Allows you to register a lambda as an event listener using generics.
+     *
+     * This is the same as [on], but for Java.
+     */
+    @JvmOverloads
+    fun <T> on(
+        clazz: Class<T>,
+        listener: Consumer<T>,
+        priority: EventPriority = EventPriority.NORMAL
+    ): Runnable {
+        val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
+        val subscriber = EventSubscriber(this, priority, method)
+        subscribers.computeIfAbsent(clazz) {
+            if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
+        }.add(subscriber)
+
+        return Runnable {
+            subscribers[clazz]?.remove(subscriber)
+        }
+    }
+
     /**
      * Posts the event instance given to all the subscribers
      * that are subscribed to the event's class.
