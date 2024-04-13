@@ -1,7 +1,7 @@
-package xyz.deftu.enhancedeventbus.collection
+package dev.deftu.enhancedeventbus.collection
 
-import xyz.deftu.enhancedeventbus.EventBus
-import xyz.deftu.enhancedeventbus.EventSubscriber
+import dev.deftu.enhancedeventbus.EventBus
+import dev.deftu.enhancedeventbus.EventSubscriber
 import java.util.Comparator
 import java.util.concurrent.CopyOnWriteArrayList
 

@@ -1,8 +1,8 @@
-package xyz.deftu.enhancedeventbus
+package dev.deftu.enhancedeventbus
 
-import xyz.deftu.enhancedeventbus.collection.ConcurrentSubscriberArrayList
-import xyz.deftu.enhancedeventbus.collection.SubscriberArrayList
-import xyz.deftu.enhancedeventbus.invokers.Invoker
+import dev.deftu.enhancedeventbus.collection.ConcurrentSubscriberArrayList
+import dev.deftu.enhancedeventbus.collection.SubscriberArrayList
+import dev.deftu.enhancedeventbus.invokers.Invoker
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.*
@@ -85,24 +85,6 @@ class EventBus internal constructor(
 
     /**
      * Allows you to register a lambda as an event listener using generics.
-     */
-    inline fun <reified T> on(
-        priority: EventPriority = EventPriority.NORMAL,
-        crossinline listener: (T) -> Unit
-    ): () -> Unit {
-        val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
-        val subscriber = EventSubscriber(this, priority, method)
-        subscribers.computeIfAbsent(T::class.java) {
-            if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
-        }.add(subscriber)
-
-        return {
-            subscribers[T::class.java]?.remove(subscriber)
-        }
-    }
-
-    /**
-     * Allows you to register a lambda as an event listener using generics.
      *
      * This is the same as [on], but for Java.
      */
@@ -161,4 +143,22 @@ class EventBus internal constructor(
     }
 
     fun getSubscribedEvents(clazz: Class<*>) = subscribers[clazz]
+}
+
+/**
+ * Allows you to register a lambda as an event listener using generics.
+ */
+inline fun <reified T> EventBus.on(
+    priority: EventPriority = EventPriority.NORMAL,
+    crossinline listener: T.() -> Unit
+): () -> Unit {
+    val method = Invoker.SubscriberMethod { arg -> listener(arg as T) }
+    val subscriber = EventSubscriber(this, priority, method)
+    subscribers.computeIfAbsent(T::class.java) {
+        if (threadSafety) ConcurrentSubscriberArrayList() else SubscriberArrayList()
+    }.add(subscriber)
+
+    return {
+        subscribers[T::class.java]?.remove(subscriber)
+    }
 }
