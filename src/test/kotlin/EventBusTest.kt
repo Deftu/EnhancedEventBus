@@ -1,8 +1,9 @@
-import dev.deftu.enhancedeventbus.SubscribeEvent
-import dev.deftu.enhancedeventbus.invokers.LMFInvoker
+import dev.deftu.eventbus.SubscribeEvent
+import dev.deftu.eventbus.invokers.LMFInvoker
 import org.junit.jupiter.api.*
-import dev.deftu.enhancedeventbus.EventPriority
-import dev.deftu.enhancedeventbus.bus
+import dev.deftu.eventbus.EventPriority
+import dev.deftu.eventbus.bus
+import dev.deftu.eventbus.on
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
@@ -21,7 +22,7 @@ class EventBusTest {
     fun `subscribing class`() {
         eventBus.register(this)
         eventBus.on<MessageReceivedEvent> {
-            println("message lambda: ${it.message}")
+            println("message lambda: $message")
         }
     }
 

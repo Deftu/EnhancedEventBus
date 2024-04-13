@@ -1,10 +1,11 @@
-package dev.deftu.enhancedeventbus
+package dev.deftu.eventbus
 
-import dev.deftu.enhancedeventbus.invokers.Invoker
-import dev.deftu.enhancedeventbus.invokers.ReflectionInvoker
+import dev.deftu.eventbus.invokers.Invoker
+import dev.deftu.eventbus.invokers.ReflectionInvoker
 import java.util.function.Consumer
 
-fun bus(lambda: EventBusBuilder.() -> Unit) = EventBusBuilder().apply(lambda).build()
+fun bus(lambda: EventBusBuilder.() -> Unit = {}) =
+    EventBusBuilder().apply(lambda).build()
 
 class EventBusBuilder {
     /**

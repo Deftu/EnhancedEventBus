@@ -1,4 +1,4 @@
-package dev.deftu.enhancedeventbus.invokers;
+package dev.deftu.eventbus.invokers;
 
 import java.lang.reflect.Method;
 

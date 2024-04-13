@@ -1,6 +1,6 @@
-package dev.deftu.enhancedeventbus
+package dev.deftu.eventbus
 
-import dev.deftu.enhancedeventbus.invokers.Invoker
+import dev.deftu.eventbus.invokers.Invoker
 
 class EventSubscriber(
     val listener: Any,

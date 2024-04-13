@@ -1,8 +1,8 @@
-package dev.deftu.enhancedeventbus
+package dev.deftu.eventbus
 
-import dev.deftu.enhancedeventbus.collection.ConcurrentSubscriberArrayList
-import dev.deftu.enhancedeventbus.collection.SubscriberArrayList
-import dev.deftu.enhancedeventbus.invokers.Invoker
+import dev.deftu.eventbus.collection.ConcurrentSubscriberArrayList
+import dev.deftu.eventbus.collection.SubscriberArrayList
+import dev.deftu.eventbus.invokers.Invoker
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 import java.util.*
